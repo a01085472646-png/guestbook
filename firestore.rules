@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /guestbook/{entryId} {
+      // 누구나 방명록 글을 읽을 수 있음
+      allow read: if true;
+
+      // 이름, 메시지, 작성 시간이 모두 포함되어 있고 비어있지 않을 때만 등록 허용
+      allow create: if request.resource.data.keys().hasOnly(['name', 'message', 'createdAt'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 30
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() > 0
+                    && request.resource.data.message.size() <= 500
+                    && request.resource.data.createdAt == request.time;
+
+      // 타인의 글 수정 및 삭제 차단
+      allow update, delete: if false;
+    }
+  }
+}

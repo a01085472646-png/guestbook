@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>온라인 방명록</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <div class="header-badge">GUESTBOOK</div>
+      <h1 class="header-title">온라인 방명록</h1>
+      <p class="header-subtitle">방문해 주셔서 감사합니다. 따뜻한 한마디를 남겨주세요.</p>
+    </header>
+
+    <main class="container">
+      <!-- 방명록 작성 카드 -->
+      <section class="card form-card" aria-labelledby="formHeading">
+        <h2 id="formHeading" class="sr-only">방명록 작성하기</h2>
+
+        <form id="guestbookForm" class="guestbook-form" novalidate>
+          <div class="form-group">
+            <label for="nameInput" class="form-label">
+              이름 <span class="required-mark" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="text"
+              id="nameInput"
+              name="name"
+              class="form-input"
+              placeholder="이름 또는 닉네임을 입력하세요"
+              maxlength="30"
+              autocomplete="name"
+              required
+            />
+            <p id="nameError" class="field-error" role="alert" hidden></p>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="messageInput" class="form-label">
+                메시지 <span class="required-mark" aria-hidden="true">*</span>
+              </label>
+              <span id="charCount" class="char-count">0 / 500</span>
+            </div>
+            <textarea
+              id="messageInput"
+              name="message"
+              class="form-textarea"
+              rows="4"
+              placeholder="남기고 싶은 메시지를 자유롭게 적어주세요."
+              maxlength="500"
+              required
+            ></textarea>
+            <p id="messageError" class="field-error" role="alert" hidden></p>
+          </div>
+
+          <div id="formAlert" class="alert" role="status" hidden></div>
+
+          <button type="submit" id="submitBtn" class="submit-btn">
+            <span class="btn-text">방명록 등록</span>
+            <span class="btn-spinner" aria-hidden="true" hidden></span>
+          </button>
+        </form>
+      </section>
+
+      <!-- 방명록 목록 섹션 -->
+      <section class="list-section" aria-labelledby="listHeading">
+        <div class="list-header">
+          <div class="list-title-wrap">
+            <h2 id="listHeading" class="list-title">남겨진 글</h2>
+            <span id="postCount" class="count-badge">0</span>
+          </div>
+          <span class="live-badge" title="새 글이 작성되면 자동으로 반영됩니다">
+            <span class="live-dot" aria-hidden="true"></span>
+            최신순
+          </span>
+        </div>
+
+        <div id="listError" class="alert alert-error" role="alert" hidden></div>
+
+        <div id="loadingState" class="state-box">
+          <div class="loading-spinner" aria-hidden="true"></div>
+          <p>방명록을 불러오는 중입니다...</p>
+        </div>
+
+        <div id="emptyState" class="state-box" hidden>
+          <p class="empty-title">아직 작성된 방명록이 없습니다.</p>
+          <p class="empty-desc">첫 번째 메시지의 주인공이 되어 보세요!</p>
+        </div>
+
+        <ul id="guestbookList" class="guestbook-list" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Firebase Cloud Firestore 기반 온라인 방명록</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
